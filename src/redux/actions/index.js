@@ -1,4 +1,6 @@
-// Coloque aqui suas actions
+import { fetchCurrencies } from '../../tests/helpers/FetchFunctions';
+
+// Actions de login
 export const USER_LOGIN = 'USER_LOGIN';
 
 export const userLogin = (email) => ({
@@ -6,9 +8,40 @@ export const userLogin = (email) => ({
   payload: { email },
 });
 
-export const USER_PASSWORD = 'USER_PASSWORD';
+// Actions de requisição da API
+export const FETCH_CURRENCY_REQUEST = 'FETCH_CURRENCY_REQUEST';
+export const FETCH_CURRENCY_SUCCESS = 'FETCH_CURRENCY_SUCCESS';
+export const FETCH_CURRENCY_FAILURE = 'FETCH_CURRENCY_FAILURE';
 
-export const userPassword = (password) => ({
-  type: USER_PASSWORD,
-  payload: { password },
+const fetchCurrencyRequest = () => ({
+  type: FETCH_CURRENCY_REQUEST,
+});
+
+const fetchCurrencySuccess = (currencies) => ({
+  type: FETCH_CURRENCY_SUCCESS,
+  payload: { currencies },
+});
+
+const fetchCurrencyFailure = (errorMessage) => ({
+  type: FETCH_CURRENCY_FAILURE,
+  payload: { errorMessage },
+});
+
+export const fetchCurrencyThunk = () => async (dispatch) => {
+  try {
+    dispatch(fetchCurrencyRequest());
+    const data = await fetchCurrencies();
+    const currencies = Object.keys(data)
+      .filter((currency) => currency !== 'USDT');
+    dispatch(fetchCurrencySuccess(currencies));
+  } catch (error) {
+    dispatch(fetchCurrencyFailure('Falha na requisição da API'));
+  }
+};
+
+export const SAVE_EXPENSES = 'SAVE_EXPENSES';
+
+export const saveExpenses = (expenses) => ({
+  type: SAVE_EXPENSES,
+  payload: { expenses },
 });
