@@ -6,6 +6,7 @@ import './Table.css';
 class Table extends Component {
   render() {
     const { expenses } = this.props;
+    console.log(expenses);
     return (
       <table>
         <thead>
@@ -22,19 +23,19 @@ class Table extends Component {
 
         <tbody>
           {
-            expenses.map((expense) => {
+            expenses.map((expense, index) => {
               const { exchangeRates } = expense;
               const currencyName = Object.entries(exchangeRates)
                 .find((coin) => coin[0] === expense.currency);
               const valueInReal = expense.value * currencyName[1].ask;
               return (
-                <tr key={ expense.id }>
+                <tr key={ index }>
                   <td>{expense.description}</td>
                   <td>{expense.tag}</td>
                   <td>{expense.method}</td>
                   <td>{Number(expense.value).toFixed(2)}</td>
                   <td>{currencyName[1].name}</td>
-                  <td>{Number(currencyName[1].ask)}</td>
+                  <td>{Number(currencyName[1].ask).toFixed(2)}</td>
                   <td>{valueInReal.toFixed(2)}</td>
                   <td>Real</td>
                 </tr>
