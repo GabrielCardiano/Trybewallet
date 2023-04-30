@@ -39,9 +39,18 @@ export const fetchCurrencyThunk = () => async (dispatch) => {
   }
 };
 
+// Action de salvar despesas na carteira
 export const SAVE_EXPENSES = 'SAVE_EXPENSES';
 
 export const saveExpenses = (expenses) => ({
   type: SAVE_EXPENSES,
   payload: { expenses },
+});
+
+// Action de deletar uma despesa
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
+
+export const deleteExpense = (expense) => ({
+  type: DELETE_EXPENSE,
+  payload: expense,
 });

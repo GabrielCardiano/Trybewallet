@@ -4,6 +4,7 @@ import {
   FETCH_CURRENCY_SUCCESS,
   FETCH_CURRENCY_FAILURE,
   SAVE_EXPENSES,
+  DELETE_EXPENSE,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -39,6 +40,15 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       expenses: [...state.expenses, action.payload.expenses],
     });
+  case DELETE_EXPENSE: {
+    const updatedExpenses = state.expenses
+      .filter(((expense) => expense !== action.payload));
+
+    return ({
+      ...state,
+      expenses: [...updatedExpenses],
+    });
+  }
   default:
     return state;
   }
