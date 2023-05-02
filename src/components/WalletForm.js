@@ -27,7 +27,7 @@ class WalletForm extends Component {
     });
   };
 
-  handleSubmit = async (event) => {
+  addExpenseButton = async (event) => {
     event.preventDefault();
     const { dispatch, expenses } = this.props;
     const id = expenses.length;
@@ -44,16 +44,10 @@ class WalletForm extends Component {
 
   render() {
     const { currencies } = this.props;
-    const {
-      tag,
-      value,
-      description,
-      currency,
-      method,
-    } = this.state;
+    const { tag, value, description, currency, method } = this.state;
 
     return (
-      <form id="wallet-form" onSubmit={ this.handleSubmit }>
+      <form id="wallet-form" onSubmit={ this.addExpenseButton }>
         <label htmlFor="input-category">
           Categoria:
           <select
@@ -133,7 +127,6 @@ class WalletForm extends Component {
             <option value="Cartão de crédito">Cartão de crédito</option>
           </select>
         </label>
-
         <button
           type="submit"
         >

@@ -58,7 +58,14 @@ export const deleteExpense = (expense) => ({
 // Action de editar despesas
 // export const EDIT_EXPENSE = 'EDIT_EXPENSE';
 
-// const editExpense = (expense) => ({
+// export const editExpense = (expense) => ({
 //   type: EDIT_EXPENSE,
 //   payload: expense,
+// });
+
+// export const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
+
+// export const updateExpense = (editedExpense) => ({
+//   type: UPDATE_EXPENSE,
+//   payload: editedExpense,
 // });

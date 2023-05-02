@@ -14,39 +14,30 @@ const INITIAL_STATE = {
   idToEdit: 0,
   isFetching: false,
   errorMessage: null,
+
 };
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case FETCH_CURRENCY_REQUEST:
-    return ({
-      ...state,
-      isFetching: true,
-    });
+    return ({ ...state, isFetching: true });
+
   case FETCH_CURRENCY_SUCCESS:
-    return ({
-      ...state,
-      isFetching: false,
-      currencies: action.payload.currencies,
-    });
+    return ({ ...state, isFetching: false, currencies: action.payload.currencies });
+
   case FETCH_CURRENCY_FAILURE:
-    return ({
-      ...state,
-      isFetching: false,
-      errorMessage: action.payload.errorMessage,
-    });
+    return ({ ...state, isFetching: false, errorMessage: action.payload.errorMessage });
+
   case SAVE_EXPENSES:
-    return ({
-      ...state,
-      expenses: [...state.expenses, action.payload.expenses],
-    });
+    return ({ ...state, expenses: [...state.expenses, action.payload.expenses] });
+
   case DELETE_EXPENSE: {
-    const updatedExpenses = state.expenses
-      .filter(((expense) => expense !== action.payload));
+    // const updatedExpenses = state.expenses
+    //   .filter(((expense) => expense !== action.payload));
 
     return ({
       ...state,
-      expenses: [...updatedExpenses],
+      expenses: state.expenses.filter((expense) => expense !== action.payload),
     });
   }
   default:

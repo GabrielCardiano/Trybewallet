@@ -5,7 +5,7 @@ import './Table.css';
 import { deleteExpense } from '../redux/actions';
 
 class Table extends Component {
-  handleDeleteBtn = async (expense) => {
+  handleDeleteBtn = (expense) => {
     const { dispatch } = this.props;
 
     dispatch(deleteExpense(expense));
@@ -29,13 +29,13 @@ class Table extends Component {
 
         <tbody>
           {
-            expenses.map((expense, id) => {
+            expenses.map((expense) => {
               const { exchangeRates } = expense;
               const currencyName = Object.entries(exchangeRates)
                 .find((coin) => coin[0] === expense.currency);
               const valueInReal = expense.value * currencyName[1].ask;
               return (
-                <tr key={ id }>
+                <tr key={ expense.id }>
                   <td>{expense.description}</td>
                   <td>{expense.tag}</td>
                   <td>{expense.method}</td>
@@ -45,15 +45,8 @@ class Table extends Component {
                   <td>{valueInReal.toFixed(2)}</td>
                   <td>Real</td>
                   <td>
-                    {/* <button
-                      data-testid="edit-btn"
-                      type="button"
-                    >
-                      Editar
-                    </button> */}
                     <button
                       data-testid="delete-btn"
-                      name={ `deleteBtn-${id}` }
                       type="button"
                       onClick={ () => this.handleDeleteBtn(expense) }
                     >

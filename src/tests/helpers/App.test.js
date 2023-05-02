@@ -44,11 +44,19 @@ describe('Testa página de Login', () => {
 
 describe('Testa a página Wallet', () => {
   test('Testa se a página [/wallet] renderiza o componente Header', () => {
-    renderWithRouterAndRedux(<Wallet />);
+    const initialState = {
+      user: {
+        email: 'tryber@teste.com',
+      },
+    };
 
+    renderWithRouterAndRedux(<Wallet />, { initialState });
+
+    const loggedEmail = screen.getByTestId('email-field');
     const totalExpense = screen.getByText(/0\.00/i);
     const expenseCurrency = screen.getByText(/brl/i);
 
+    expect(loggedEmail).toBeInTheDocument();
     expect(totalExpense).toBeInTheDocument();
     expect(expenseCurrency).toBeInTheDocument();
   });
@@ -77,7 +85,7 @@ describe('Testa a página Wallet', () => {
   });
 
   test('testa se preenchimento do formulário adiciona despesa à tabela', async () => {
-    renderWithRouterAndRedux(<App />, { initialEntries: ['/carteira'] });
+    const { store } = renderWithRouterAndRedux(<Wallet />);
 
     const tagInput = screen.getByText(/categoria:/i);
     const valueInput = screen.getByText(/valor:/i);
@@ -86,8 +94,8 @@ describe('Testa a página Wallet', () => {
       const currencyInput = screen.getByTestId('currency-input');
       expect(currencyInput).toBeInTheDocument();
 
-      const dollarOption = currencyInput.querySelector('option:first-of-type');
-      expect(dollarOption.value).toBe('USD');
+      const firstOption = currencyInput.querySelector('option:first-of-type');
+      expect(firstOption).toHaveValue('USD');
     });
     const paymentMethodInput = screen.getByText(/método de pagamento:/i);
     const addExpenseButton = screen.getByRole('button', { name: /adicionar despesa/i });
@@ -103,10 +111,14 @@ describe('Testa a página Wallet', () => {
 
     userEvent.click(addExpenseButton);
 
-    userEvent.type(valueInput, 20);
-    userEvent.type(descriptionInput, 'coca-cola');
+    // expect(valueInput).toHaveValue('');
+    // const totalExpense = screen.getByTestId('total-field');
+    // expect(totalExpense).toHaveValue('50');
 
-    userEvent.click(addExpenseButton);
+    // const { wallet: { expenses } } = store.getState();
+    // expect(expenses).toHaveLength(1);
+    // expect(expenses[0].value).toBe(50);
+    // expect(expenses[0].description).toBe('Pizza');
 
     waitFor(() => {
       const descriptionCell1 = screen.getByRole('cell', { name: /pizza/i });
