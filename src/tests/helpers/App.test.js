@@ -85,7 +85,7 @@ describe('Testa a página Wallet', () => {
   });
 
   test('testa se preenchimento do formulário adiciona despesa à tabela', async () => {
-    const { store } = renderWithRouterAndRedux(<Wallet />);
+    renderWithRouterAndRedux(<Wallet />);
 
     const tagInput = screen.getByText(/categoria:/i);
     const valueInput = screen.getByText(/valor:/i);
