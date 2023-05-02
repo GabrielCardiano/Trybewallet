@@ -5,7 +5,7 @@ import './Table.css';
 import { deleteExpense } from '../redux/actions';
 
 class Table extends Component {
-  handleDeleteBtn = (expense) => {
+  handleDeleteBtn = async (expense) => {
     const { dispatch } = this.props;
 
     dispatch(deleteExpense(expense));
@@ -45,6 +45,12 @@ class Table extends Component {
                   <td>{valueInReal.toFixed(2)}</td>
                   <td>Real</td>
                   <td>
+                    {/* <button
+                      data-testid="edit-btn"
+                      type="button"
+                    >
+                      Editar
+                    </button> */}
                     <button
                       data-testid="delete-btn"
                       name={ `deleteBtn-${id}` }

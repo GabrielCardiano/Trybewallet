@@ -5,6 +5,7 @@ import {
   FETCH_CURRENCY_FAILURE,
   SAVE_EXPENSES,
   DELETE_EXPENSE,
+  EDIT_EXPENSE,
 } from '../actions';
 
 const INITIAL_STATE = {
