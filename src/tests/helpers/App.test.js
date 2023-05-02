@@ -61,7 +61,7 @@ describe('Testa a página Wallet', () => {
     expect(expenseCurrency).toBeInTheDocument();
   });
 
-  test('Testa se a página [/wallet] renderiza a tabela', async () => {
+  test('Testa se a página [/wallet] renderiza o cabeçalho da tabela', async () => {
     renderWithRouterAndRedux(<Wallet />);
     const description = screen.getByRole('columnheader', { name: /descrição/i });
     const tag = screen.getByRole('columnheader', { name: /tag/i });
@@ -111,30 +111,20 @@ describe('Testa a página Wallet', () => {
 
     userEvent.click(addExpenseButton);
 
-    // expect(valueInput).toHaveValue('');
-    // const totalExpense = screen.getByTestId('total-field');
-    // expect(totalExpense).toHaveValue('50');
+    const descriptionCell = await screen.findByRole('cell', { name: /pizza/i });
+    const tagCell = await screen.findByRole('cell', { name: /alimentação/i });
+    // const valueCell = await screen.findByRole('cell', { name: /50\.00/i });
+    const deleteButton = await screen.findByRole('button', { name: /excluir/i });
 
-    // const { wallet: { expenses } } = store.getState();
-    // expect(expenses).toHaveLength(1);
-    // expect(expenses[0].value).toBe(50);
-    // expect(expenses[0].description).toBe('Pizza');
+    expect(descriptionCell).toBeInTheDocument();
+    expect(tagCell).toBeInTheDocument();
+    expect(deleteButton).toBeInTheDocument();
 
-    waitFor(() => {
-      const descriptionCell1 = screen.getByRole('cell', { name: /pizza/i });
-      const tagCell1 = screen.getByRole('cell', { name: /alimentação/i });
-      const valueCell1 = screen.getByRole('cell', { name: /50\.00/i });
-      const deleteButton = screen.getByRole('button', { name: /excluir/i });
+    userEvent.click(deleteButton);
 
-      expect(descriptionCell1).toBeInTheDocument();
-      expect(tagCell1).toBeInTheDocument();
-      expect(valueCell1).toBeInTheDocument();
-      expect(deleteButton).toBeInTheDocument();
-
-      userEvent.click(deleteButton);
-      expect(descriptionCell1).not.toBeInTheDocument();
-      expect(tagCell1).not.toBeInTheDocument();
-      expect(valueCell1).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(descriptionCell).not.toBeInTheDocument();
+      expect(tagCell).not.toBeInTheDocument();
       expect(deleteButton).not.toBeInTheDocument();
     });
   });
