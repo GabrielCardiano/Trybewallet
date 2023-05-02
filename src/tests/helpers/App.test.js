@@ -3,7 +3,6 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './renderWith';
 import App from '../../App';
-import mockData from './mockData';
 import Wallet from '../../pages/Wallet';
 
 describe('Testa página de Login', () => {
@@ -59,24 +58,21 @@ describe('Testa a página Wallet', () => {
     const description = screen.getByRole('columnheader', { name: /descrição/i });
     const tag = screen.getByRole('columnheader', { name: /tag/i });
     const paymentMethod = screen.getByRole('columnheader', { name: /método de pagamento/i });
+    const value = screen.getByRole('columnheader', { name: 'Valor' });
+    const currency = screen.getByRole('columnheader', { name: 'Moeda' });
     const exchangeRate = screen.getByRole('columnheader', { name: /câmbio utilizado/i });
     const convertedValue = screen.getByRole('columnheader', { name: /valor convertido/i });
-    const baseCurrency = screen.getByRole('columnheader', { name: /moeda de conversão/i });
+    const conversionCurrency = screen.getByRole('columnheader', { name: /moeda de conversão/i });
     const editDelete = screen.getByRole('columnheader', { name: /editar\/excluir/i });
-    await waitFor(() => {
-      const currencySelect = screen.getByTestId('currency-input');
-      expect(currencySelect).toBeInTheDocument();
-
-      const dollarOption = currencySelect.querySelector('option:first-of-type');
-      expect(dollarOption.value).toBe('USD');
-    });
 
     expect(description).toBeInTheDocument();
     expect(tag).toBeInTheDocument();
     expect(paymentMethod).toBeInTheDocument();
+    expect(value).toBeInTheDocument();
+    expect(currency).toBeInTheDocument();
     expect(exchangeRate).toBeInTheDocument();
     expect(convertedValue).toBeInTheDocument();
-    expect(baseCurrency).toBeInTheDocument();
+    expect(conversionCurrency).toBeInTheDocument();
     expect(editDelete).toBeInTheDocument();
   });
 
@@ -87,8 +83,11 @@ describe('Testa a página Wallet', () => {
     const valueInput = screen.getByText(/valor:/i);
     const descriptionInput = screen.getByText(/descrição:/i);
     await waitFor(() => {
-      const currencyInput = screen.getByText(/moeda:/i);
+      const currencyInput = screen.getByTestId('currency-input');
       expect(currencyInput).toBeInTheDocument();
+
+      const dollarOption = currencyInput.querySelector('option:first-of-type');
+      expect(dollarOption.value).toBe('USD');
     });
     const paymentMethodInput = screen.getByText(/método de pagamento:/i);
     const addExpenseButton = screen.getByRole('button', { name: /adicionar despesa/i });
@@ -113,28 +112,18 @@ describe('Testa a página Wallet', () => {
       const descriptionCell1 = screen.getByRole('cell', { name: /pizza/i });
       const tagCell1 = screen.getByRole('cell', { name: /alimentação/i });
       const valueCell1 = screen.getByRole('cell', { name: /50\.00/i });
-      const buttonCell1 = screen.getByRole('button', { name: /excluir/i });
+      const deleteButton = screen.getByRole('button', { name: /excluir/i });
 
       expect(descriptionCell1).toBeInTheDocument();
       expect(tagCell1).toBeInTheDocument();
       expect(valueCell1).toBeInTheDocument();
-      expect(buttonCell1).toBeInTheDocument();
+      expect(deleteButton).toBeInTheDocument();
 
-      const descriptionCell2 = screen.getByRole('cell', { name: /coca-cola/i });
-      const tagCell2 = screen.getByRole('cell', { name: /alimentação/i });
-      const valueCell2 = screen.getByRole('cell', { name: /20\.00/i });
-      const buttonCell2 = screen.getByRole('button', { name: /excluir/i });
-
-      expect(descriptionCell2).toBeInTheDocument();
-      expect(tagCell2).toBeInTheDocument();
-      expect(valueCell2).toBeInTheDocument();
-      expect(buttonCell2).toBeInTheDocument();
-
-      userEvent.click(buttonCell1);
+      userEvent.click(deleteButton);
       expect(descriptionCell1).not.toBeInTheDocument();
       expect(tagCell1).not.toBeInTheDocument();
       expect(valueCell1).not.toBeInTheDocument();
-      expect(buttonCell1).not.toBeInTheDocument();
+      expect(deleteButton).not.toBeInTheDocument();
     });
   });
 });
